@@ -24,6 +24,10 @@ module Instagram
     # Skip views, helpers and assets when generating a new resource.
     config.api_only = true
 
+    # Add back cookies and session middleware
+    config.middleware.use ActionDispatch::Cookies
+    config.middleware.use ActionDispatch::Session::CookieStore, key: '_instagram_session'
+
     # Configure CORS
     config.middleware.insert_before 0, Rack::Cors do
       allow do

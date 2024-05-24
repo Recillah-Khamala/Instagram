@@ -9,6 +9,11 @@ Rails.application.routes.draw do
     passwords: 'users/passwords'
   }
 
+  devise_scope :user do
+    get 'signup', to: 'users/registrations#new'
+    post 'signup', to: 'users/registrations#new'
+  end
+
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Defines the root path route ("/")

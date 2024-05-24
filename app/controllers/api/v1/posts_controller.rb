@@ -1,5 +1,6 @@
 module Api::V1
   class PostsController < ApplicationController
+    before_action :authenticate_user!
     before_action :set_post, only: [ :show, :edit, :update, :destroy ]
 
     # GET /posts
@@ -10,11 +11,6 @@ module Api::V1
 
     # GET /posts/:id
     def show
-      render json: @post
-    end
-
-    # Get /posts/:id/edit
-    def edit
       render json: @post
     end
 
@@ -40,7 +36,7 @@ module Api::V1
       end
     end
 
-    DELETE /posts/:id
+    # DELETE /posts/:id
     def destroy
       @post.destroy
       render json: { message: 'post was successfuly destroyed.'}
@@ -53,11 +49,11 @@ module Api::V1
     end
 
     def post_params
-      params.require(:post).permit(:caption, media_files: []).merge(user: current_user)
+      params.permit(:caption, media_files: []).merge(user: current_user)
     end
 
     def attach_media_files
-      params[:media_files].each do |file
+      params[:media_files].each do |file|
         @post.media_files.attach(file)
       end if params[:media_files]
     end
